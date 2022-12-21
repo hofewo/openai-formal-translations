@@ -8,12 +8,13 @@ export default function Home() {
   const fetchApi = async (e) => {
     setLoading(true);
     e.preventDefault();
+    const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
     const res = await fetch('https://api.openai.com/v1/completions',
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer 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',
+          'Authorization': `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
           model: 'text-davinci-003',
@@ -23,7 +24,7 @@ export default function Home() {
           max_tokens: 2048,
         })
       }).then(res => res.json());
-    setResponse(res);
+    setResponse(res?.choices[0]?.text);
     setLoading(false);
   }
   const handleChange = (e) => {
@@ -41,7 +42,7 @@ export default function Home() {
         className="border-2 border-gray-200 w-full max-w-4xl h-64 p-4" placeholder="Input text to correct to formal English"
       />
 
-      <button onClick={fetchApi} className='bg-gray-200 px-8 py-4 w-full max-w-xs hover:bg-gray-200'>
+      <button onClick={fetchApi} className='bg-gray-200 px-8 py-4 w-full max-w-xs hover:bg-gray-300'>
         {loading ? 'Transforming text..' : 'Correct to formal English'}
       </button>
 
@@ -51,12 +52,12 @@ export default function Home() {
 
           <button
             className="p-4 bg-gray-200 hover:bg-gray-300"
-            onClick={() => navigator.clipboard.writeText(response?.choices[0]?.text)}
+            onClick={() => navigator.clipboard.writeText(response)}
           >
             Copy to clipboard
           </button>
         </div>
-        {response?.choices[0]?.text ?? - ''}
+        {response}
       </pre>
     </form>
   </>
