@@ -52,7 +52,10 @@ export default function Home() {
 
           <button
             className="p-4 bg-gray-200 hover:bg-gray-300"
-            onClick={() => navigator.clipboard.writeText(response)}
+            onClick={(e) => {
+              e.preventDefault()
+              navigator.clipboard.writeText(response)
+            }}
           >
             Copy to clipboard
           </button>
