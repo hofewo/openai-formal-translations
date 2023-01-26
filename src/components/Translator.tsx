@@ -37,7 +37,7 @@ export default function Translator() {
     }
     const handleClear = (e) => {
         e.preventDefault()
-        const input = document.getElementById('input-text')
+        const input = document.getElementById('input-text') as HTMLInputElement
         setInput('')
         input.value = ''
         setResponse('Formal translation')
