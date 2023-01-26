@@ -88,7 +88,7 @@ export default function Translator() {
             <div className="bg-blue-50 w-full h-full p-8 whitespace-pre-wrap rounded-xl text-xl relative">
                 <button
                     type='button'
-                    className="absolute top-4 right-4 text-sm rounded-lg bg-blue-900/10 px-2 flex items-center text-zinc-500 flex-col"
+                    className="absolute top-4 right-4 text-sm rounded-lg bg-blue-900/10 backdrop-blur-2xl px-2 flex items-center text-zinc-500 flex-col z-10"
                     onClick={() => setOpenTranslateTo(oldValue => !oldValue)}
                     onBlur={() => setOpenTranslateTo(false)}
                 >

@@ -28,7 +28,7 @@ export default function Layout({ children }) {
             </Link>
         </header>
 
-        <main className="flex flex-col max-w-8xl mx-auto mt-8 p-4">
+        <main className="flex flex-col max-w-8xl mx-auto lg:mt-8 p-4">
             {children}
         </main>
     </>
