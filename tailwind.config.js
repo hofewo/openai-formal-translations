@@ -8,6 +8,9 @@ module.exports = {
     extend: {
       maxWidth: {
         "8xl": "96rem",
+      },
+      fontSize: {
+        "xxs": "9px",
       }
     },
   },

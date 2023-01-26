@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRightCircleIcon, ArrowRightIcon, ArrowRightOnRectangleIcon, BeakerIcon, CheckIcon, ChevronDownIcon, ChevronRightIcon, ClipboardDocumentIcon } from '@heroicons/react/24/outline'
+import { ArrowRightCircleIcon, CheckIcon, ChevronDownIcon, ChevronRightIcon, ClipboardDocumentIcon } from '@heroicons/react/24/outline'
 import LoadingSpinner from "./LoadingSpinner";
 
 export default function Translator() {
@@ -23,7 +23,7 @@ export default function Translator() {
                 },
                 body: JSON.stringify({
                     model: 'text-davinci-003',
-                    prompt: `Correct the following text to formal ${translateTo}: ${input}`,
+                    prompt: `Correct the following text to formal ${translateTo}: "${input}"`,
                     temperature: 0.5,
                     echo: false,
                     max_tokens: 2048,
@@ -34,6 +34,16 @@ export default function Translator() {
     }
     const handleChange = (e) => {
         setInput(e.target.value);
+    }
+    const openTranslateToMenu = (e) => {
+        setFilteredLanguages(languages.sort());
+        setOpenTranslateTo(oldValue => !oldValue);
+    }
+    const [filteredLanguages, setFilteredLanguages] = useState(languages.sort())
+    const handleSearchLanguages = (e) => {
+        const input = e.target.value.toLowerCase()
+        const filteredLanguages = languages.filter(language => language.toLocaleLowerCase().includes(input))
+        setFilteredLanguages(filteredLanguages)
     }
     const handleClear = (e) => {
         e.preventDefault()
@@ -50,8 +60,11 @@ export default function Translator() {
         setCopied(true);
         window.setTimeout(() => setCopied(false), 3000)
     }
-    return <>
+    const onBlur = (e) => {
+        window.setTimeout(() => setOpenTranslateTo(false), 200);
+    }
 
+    return <>
         <section className="grid lg:grid-cols-2 w-full h-[50vh] min-h-[640px] lg:min-h-[480px] gap-4 h">
 
             <form className="relative w-full h-full rounded-xl" onSubmit={handleTranslate}>
@@ -63,10 +76,14 @@ export default function Translator() {
                     className="border w-full h-full border-zinc-200 focus:border-zinc-100 outline-none p-8 pt-20 rounded-xl ring-blue-400 ring-offset-2 focus:ring-2 text-xl"
                     placeholder="Your informal text.."
                     autoFocus={true}
+                    name="input-text"
                     id="input-text"
                     required
                 />
-                <div className="absolute z-10 bottom-4 left-4 flex items-center gap-2">
+                <div className="absolute z-10 bottom-4 right-4 flex items-center gap-2">
+                    <button type='button' className='bg-white hover:bg-zinc-100 text-gray-500 text-xs lg:text-sm p-4 max-w-xs rounded-xl font-bold uppercase tracking-wide flex items-center' onClick={handleClear}>
+                        Clear text
+                    </button>
                     <button type='submit' className='bg-blue-500 hover:bg-blue-600 text-white text-xs lg:text-sm p-4 max-w-xs rounded-xl font-bold uppercase tracking-wide flex items-center focus:ring-4 ring-blue-300'>
                         {loading
                             ? <>
@@ -79,31 +96,40 @@ export default function Translator() {
                             </>
                         }
                     </button>
-                    <button type='button' className='bg-white hover:bg-zinc-100 text-gray-500 text-xs lg:text-sm p-4 max-w-xs rounded-xl font-bold uppercase tracking-wide flex items-center' onClick={handleClear}>
-                        Clear text
-                    </button>
                 </div>
             </form>
 
             <div className="bg-blue-50 w-full h-full p-8 pt-20 whitespace-pre-wrap rounded-xl text-xl relative">
-                <button
-                    type='button'
-                    className="absolute top-4 right-4 text-sm rounded-lg bg-blue-900/10 backdrop-blur-2xl px-2 flex items-center text-zinc-500 flex-col z-10"
-                    onClick={() => setOpenTranslateTo(oldValue => !oldValue)}
-                    onBlur={() => setOpenTranslateTo(false)}
+                <div
+                    className={`absolute top-4 right-4 text-sm rounded-lg bg-blue-900/10 backdrop-blur-2xl px-2 flex items-center text-zinc-500 flex-col z-10 ${openTranslateTo ? 'shadow-lg' : ''}`}
                 >
-                    <span className="flex flex-row items-center h-10">
+                    <button
+                        className="flex flex-row items-center h-10 flex-auto w-full justify-end"
+                        onClick={openTranslateToMenu}
+                    >
                         Formal {translateTo}
                         <ChevronDownIcon className="w-4 h-4 ml-1" />
-                    </span>
+                    </button>
 
                     {openTranslateTo
-                        ? <nav className="top-10 rounded-lg p-2 text-sm bg-white text-left w-full mb-2 shadow-lg">
-                            {languages.map(language =>
+                        ? <nav className="top-10 rounded-lg p-2 text-sm bg-white text-left mb-2 shadow-lg columns-2 lg:columns-3">
+                            <input
+                                type="text"
+                                name='search-language'
+                                placeholder="Search language.."
+                                autoFocus
+                                className='focus:outline-none mb-2 p-2 bg-blue-900/10 rounded-md w-[150px]'
+                                onChange={handleSearchLanguages}
+                                onBlur={onBlur}
+                            />
+                            {filteredLanguages.map(language =>
                                 <menu
                                     key={language}
-                                    className={`hover:bg-zinc-100 px-2 py-1 rounded-md ${translateTo == language ? 'bg-zinc-200' : ''}`}
-                                    onClick={() => setTranslateTo(language)}
+                                    className={`cursor-pointer hover:bg-zinc-100 px-2 py-1 rounded-md ${translateTo == language ? 'bg-zinc-100 font-bold' : ''}`}
+                                    onClick={() => {
+                                        setTranslateTo(language);
+                                        setOpenTranslateTo(false);
+                                    }}
                                 >
                                     {language}
                                 </menu>
@@ -111,7 +137,7 @@ export default function Translator() {
                         </nav>
                         : <></>
                     }
-                </button>
+                </div>
 
                 {response}
 
@@ -145,4 +171,34 @@ const languages = [
     'Chinese',
     'Korean',
     'Arabic',
+    'Spanish',
+    'Portuguese',
+    'Italian',
+    'Hungarian',
+    'Norwegian',
+    'Finnish',
+    'Greek',
+    'Hebrew',
+    'Vietnamese',
+    'Indonesian',
+    'Russian',
+    'Ukrainian',
+    'Thai',
+    'Swedish',
+    'Slovenian',
+    'Slovak',
+    'Serbian',
+    'Romanian',
+    'Punjabi',
+    'Polish',
+    'Lithuanian',
+    'Latin',
+    'Kurdish',
+    'Japanese',
+    'Javanese',
+    'Hindi',
+    'Czech',
+    'Bulgarian',
+    'Albanian',
+    'Armenian'
 ]
