@@ -52,7 +52,7 @@ export default function Translator() {
     }
     return <>
 
-        <section className="grid lg:grid-cols-2 w-full h-[50vh] min-h-[480px] gap-4 h">
+        <section className="grid lg:grid-cols-2 w-full h-[50vh] min-h-[640px] lg:min-h-[480px] gap-4 h">
 
             <form className="relative w-full h-full rounded-xl" onSubmit={handleTranslate}>
                 <span className="absolute top-4 right-4 text-sm rounded-lg bg-zinc-100 px-2 h-10 flex items-center text-zinc-500">
@@ -60,14 +60,14 @@ export default function Translator() {
                 </span>
                 <textarea
                     onChange={handleChange}
-                    className="border w-full h-full border-zinc-200 focus:border-zinc-100 outline-none p-8 rounded-xl ring-blue-400 ring-offset-2 focus:ring-2 text-xl"
+                    className="border w-full h-full border-zinc-200 focus:border-zinc-100 outline-none p-8 pt-20 rounded-xl ring-blue-400 ring-offset-2 focus:ring-2 text-xl"
                     placeholder="Your informal text.."
                     autoFocus={true}
                     id="input-text"
                     required
                 />
                 <div className="absolute z-10 bottom-4 left-4 flex items-center gap-2">
-                    <button type='submit' className='bg-blue-500 hover:bg-blue-600 text-white text-sm p-4 max-w-xs rounded-xl font-bold uppercase tracking-wide flex items-center focus:ring-4 ring-blue-300'>
+                    <button type='submit' className='bg-blue-500 hover:bg-blue-600 text-white text-xs lg:text-sm p-4 max-w-xs rounded-xl font-bold uppercase tracking-wide flex items-center focus:ring-4 ring-blue-300'>
                         {loading
                             ? <>
                                 <LoadingSpinner loading={loading} className='w-5 h-5 mr-2' />
@@ -79,13 +79,13 @@ export default function Translator() {
                             </>
                         }
                     </button>
-                    <button type='button' className='bg-white hover:bg-zinc-100 text-gray-500 text-sm p-4 max-w-xs rounded-xl font-bold uppercase tracking-wide flex items-center' onClick={handleClear}>
+                    <button type='button' className='bg-white hover:bg-zinc-100 text-gray-500 text-xs lg:text-sm p-4 max-w-xs rounded-xl font-bold uppercase tracking-wide flex items-center' onClick={handleClear}>
                         Clear text
                     </button>
                 </div>
             </form>
 
-            <div className="bg-blue-50 w-full h-full p-8 whitespace-pre-wrap rounded-xl text-xl relative">
+            <div className="bg-blue-50 w-full h-full p-8 pt-20 whitespace-pre-wrap rounded-xl text-xl relative">
                 <button
                     type='button'
                     className="absolute top-4 right-4 text-sm rounded-lg bg-blue-900/10 backdrop-blur-2xl px-2 flex items-center text-zinc-500 flex-col z-10"
@@ -116,7 +116,7 @@ export default function Translator() {
                 {response}
 
                 <button
-                    className="p-4 bg-white hover:bg-zinc-100 focus:bg-zinc-100 ring-offset-transparent text-zinc-500 text-sm rounded-xl font-bold absolute bottom-4 right-4 flex items-center uppercase tracking-wide focus:ring-4 ring-blue-300"
+                    className="p-4 bg-white hover:bg-zinc-100 focus:bg-zinc-100 ring-offset-transparent text-zinc-500 text-xs lg:text-sm rounded-xl font-bold absolute bottom-4 right-4 flex items-center uppercase tracking-wide focus:ring-4 ring-blue-300"
                     onClick={copyToClipboard}
                 >
                     {
