@@ -91,7 +91,12 @@ export default function Translator() {
                     <button type='button' className='bg-white hover:bg-zinc-100 text-gray-500 text-xs lg:text-sm p-4 max-w-xs rounded-xl font-bold uppercase tracking-wide flex items-center' onClick={handleClear}>
                         Clear text
                     </button>
-                    <button type='submit' className='bg-blue-500 hover:bg-blue-600 text-white text-xs lg:text-sm p-4 max-w-xs rounded-xl font-bold uppercase tracking-wide flex items-center focus:ring-4 ring-blue-300'>
+                    <button
+                        type='submit'
+                        className={`bg-blue-500 hover:bg-blue-600 text-white text-xs lg:text-sm p-4 max-w-xs rounded-xl font-bold uppercase tracking-wide 
+                        flex items-center focus:ring-4 ring-blue-300 ${loading ? 'disabled' : ''}`}
+                        {...loading && { disabled: true }}
+                    >
                         {loading
                             ? <>
                                 <LoadingSpinner loading={loading} className='w-5 h-5 mr-2' />

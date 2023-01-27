@@ -31,10 +31,11 @@ export default function Home() {
           <span className='font-extrabold'>AI powered</span> informal to formal corrections.
         </h1>
         <div className='w-8 h-[1px] my-4 bg-zinc-700' />
-        Text To Formal provides state of the art AI technology to correct and translate your informal texts to formal texts in 40+ languages.
-        Our translator allows companies to engage employees who do not master a language on a professional level, to convert or translate informal texts into formal,
-        professional texts ready to be used in B2B and B2C environments. Continuous Machine Learning further improves our language translation
-        and correction model on a daily basis, allowing our translator to correct texts to a level that cannot be distinguished from native levels.
+        Text To Formal provides state-of-the-art AI technology to correct and translate informal texts to formal texts in over 40 languages.
+        Our translator enables companies to engage employees who do not possess a professional level of proficiency in a language,
+        to convert or translate informal texts into formal, professional texts that are suitable for use in both B2B and B2C contexts.
+        Continuous Machine Learning further enhances our language translation and correction model,
+        allowing our translator to correct texts to a level that is indistinguishable from native levels.
       </div>
       <div>
         <h2 className='uppercase tracking-wider text-xl'>
