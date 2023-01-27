@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { ArrowRightCircleIcon, CheckIcon, ChevronDownIcon, ChevronRightIcon, ClipboardDocumentIcon } from '@heroicons/react/24/outline'
+import { ArrowRightCircleIcon, CheckIcon, ChevronDownIcon, ClipboardDocumentIcon } from '@heroicons/react/24/outline'
 import LoadingSpinner from "./LoadingSpinner";
+import { languages } from "@/constants/languages";
 
 export default function Translator() {
     const [response, setResponse] = useState('Formal translation');
-    const [input, setInput] = useState('');
+    let [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
     const [translateTo, setTranslateTo] = useState('English');
     const [openTranslateTo, setOpenTranslateTo] = useState(false);
@@ -13,6 +14,7 @@ export default function Translator() {
         if (input.length < 3) return;
         setResponse('');
         setLoading(true);
+        input = input.replace(/(\n)/g, '\n')
         const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
         const res = await fetch('https://api.openai.com/v1/completions',
             {
@@ -29,7 +31,12 @@ export default function Translator() {
                     max_tokens: 2048,
                 })
             }).then(res => res.json());
-        setResponse(res?.choices[0]?.text);
+        let response = res?.choices[0]?.text
+        response = response.replace(`
+`, '').replace(`
+`, '')
+        if (response.slice(0, 1) == '"') response = response.slice(1, -1)
+        setResponse(response);
         setLoading(false);
     }
     const handleChange = (e) => {
@@ -65,7 +72,7 @@ export default function Translator() {
     }
 
     return <>
-        <section className="grid lg:grid-cols-2 w-full h-[50vh] min-h-[640px] lg:min-h-[480px] gap-4 h">
+        <section className="grid lg:grid-cols-2 w-full h-[80vh] lg:h-[50vh] min-h-[720px] lg:min-h-[480px] gap-4">
 
             <form className="relative w-full h-full rounded-xl" onSubmit={handleTranslate}>
                 <span className="absolute top-4 right-4 text-sm rounded-lg bg-zinc-100 px-2 h-10 flex items-center text-zinc-500">
@@ -73,7 +80,7 @@ export default function Translator() {
                 </span>
                 <textarea
                     onChange={handleChange}
-                    className="border w-full h-full border-zinc-200 focus:border-zinc-100 outline-none p-8 pt-20 rounded-xl ring-blue-400 ring-offset-2 focus:ring-2 text-xl"
+                    className="border w-full h-full border-zinc-200 focus:border-zinc-100 outline-none p-8 py-20 rounded-xl ring-blue-300 ring-offset-2 focus:ring-2 text-xl"
                     placeholder="Your informal text.."
                     autoFocus={true}
                     name="input-text"
@@ -99,7 +106,7 @@ export default function Translator() {
                 </div>
             </form>
 
-            <div className="bg-blue-50 w-full h-full p-8 pt-20 whitespace-pre-wrap rounded-xl text-xl relative">
+            <div className="bg-blue-50 w-full h-full p-8 py-20 whitespace-pre-wrap rounded-xl text-xl relative">
                 <div
                     className={`absolute top-4 right-4 text-sm rounded-lg bg-blue-900/10 backdrop-blur-2xl px-2 flex items-center text-zinc-500 flex-col z-10 ${openTranslateTo ? 'shadow-lg' : ''}`}
                 >
@@ -118,7 +125,7 @@ export default function Translator() {
                                 name='search-language'
                                 placeholder="Search language.."
                                 autoFocus
-                                className='focus:outline-none mb-2 p-2 bg-blue-900/10 rounded-md w-[150px]'
+                                className='focus:outline-none mb-2 p-2 bg-blue-900/10 rounded-md w-[120px] lg:w-[150px]'
                                 onChange={handleSearchLanguages}
                                 onBlur={onBlur}
                             />
@@ -159,46 +166,5 @@ export default function Translator() {
             </div>
 
         </section>
-
     </>
 }
-
-const languages = [
-    'English',
-    'French',
-    'German',
-    'Dutch',
-    'Chinese',
-    'Korean',
-    'Arabic',
-    'Spanish',
-    'Portuguese',
-    'Italian',
-    'Hungarian',
-    'Norwegian',
-    'Finnish',
-    'Greek',
-    'Hebrew',
-    'Vietnamese',
-    'Indonesian',
-    'Russian',
-    'Ukrainian',
-    'Thai',
-    'Swedish',
-    'Slovenian',
-    'Slovak',
-    'Serbian',
-    'Romanian',
-    'Punjabi',
-    'Polish',
-    'Lithuanian',
-    'Latin',
-    'Kurdish',
-    'Japanese',
-    'Javanese',
-    'Hindi',
-    'Czech',
-    'Bulgarian',
-    'Albanian',
-    'Armenian'
-]

@@ -29,17 +29,17 @@ export default function Layout({ children }) {
 
         <ToastContainer />
 
-        <header className='w-full flex justify-center p-4 max-w-8xl mx-auto'>
+        <header className='w-full flex lg:justify-center p-4 max-w-8xl mx-auto'>
             <Link href='/' className='flex gap-4 items-center'>
-                <img src="/images/text-to-formal-logo-2023.svg" className='h-12 lg:h-16' />
+                <img src="/images/text-to-formal-logo-2023.svg" className='h-10 lg:h-16' />
             </Link>
         </header>
 
-        <main className="flex flex-col max-w-8xl mx-auto lg:mt-8 p-4">
+        <main className="flex flex-col max-w-8xl mx-auto lg:mt-4 p-4">
             {children}
         </main>
 
-        <footer className='flex max-w-8xl mx-auto p-4 lg:mt-8 text-xxs lg:text-xs text-zinc-500 justify-between'>
+        <footer className='flex flex-col lg:flex-row max-w-8xl mx-auto p-4 lg:mt-8 text-xxs lg:text-xs text-zinc-500 justify-between'>
             © Copyright Text To Formal 2023. All rights reserved.
 
             <div>
